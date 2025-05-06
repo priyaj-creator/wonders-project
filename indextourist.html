@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>World Wonders Tourism</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      color: #333;
+      transition: background 0.4s, color 0.4s;
+    }
+    body.dark-mode {
+      background: linear-gradient(to right, #2c3e50, #4ca1af);
+      color: #f0f0f0;
+    }
+    header {
+      text-align: center;
+      padding: 2rem;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+      color: #4b0082;
+    }
+    .toolbar, .add-place {
+      text-align: center;
+      padding: 1rem;
+      background-color: rgba(255, 255, 255, 0.7);
+      margin: 1rem auto;
+      border-radius: 12px;
+      max-width: 800px;
+    }
+    .toolbar input[type="text"] {
+      padding: 0.5rem;
+      width: 250px;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+    }
+    .toggle-btn {
+      margin-left: 1rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border: none;
+      background-color: #1e90ff;
+      color: white;
+      border-radius: 8px;
+    }
+    .add-place input, .add-place button {
+      margin: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 6px;
+    }
+    .places {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+    }
+    .place {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      width: 300px;
+      transition: transform 0.3s;
+    }
+    .place:hover {
+      transform: scale(1.05);
+    }
+    .place img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .place h2 {
+      margin: 0.5rem;
+      color: #1e90ff;
+    }
+    .place p {
+      padding: 0 1rem 1rem;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: rgba(255, 255, 255, 0.6);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Explore the Wonders of the World</h1>
+    <p>Your journey begins here</p>
+  </header>
+
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="Search wonders..." onkeyup="filterPlaces()" />
+    <button class="toggle-btn" onclick="toggleMode()">Toggle Dark Mode</button>
+  </div>
+
+  <section class="add-place">
+    <h2>Add a New Wonder</h2>
+    <input type="text" id="newName" placeholder="Wonder Name" />
+    <input type="text" id="newDesc" placeholder="Description" />
+    <input type="file" id="newImage" accept="image/*" />
+    <button onclick="addNewPlace()">Add Place</button>
+    <p><small>Note: Image upload is simulated (local only)</small></p>
+  </section>
+
+  <section class="places" id="places">
+    <div class="place" data-name="Taj Mahal">
+      <img src="https://img.peapix.com/5714e0a960724f3c9544e40910ee92a4_480.jpg" alt="Taj Mahal">
+      <h2>Taj Mahal</h2>
+      <p>India's symbol of love and architectural beauty.</p>
+    </div>
+    <div class="place" data-name="Christ the Redeemer">
+      <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/e4/12/c9/visao-privilegiada.jpg?w=1200&h=1200&s=1" alt="Christ the Redeemer">
+      <h2>Christ the Redeemer</h2>
+      <p>A stunning statue overlooking Rio de Janeiro, Brazil.</p>
+    </div>
+    <div class="place" data-name="Great Wall of China">
+      <img src="https://miro.medium.com/v2/resize:fit:1400/1*bElpUCLFA6Wb3aEuzzZ8vw.jpeg" alt="Great Wall of China">
+      <h2>Great Wall of China</h2>
+      <p>An ancient marvel stretching over 13,000 miles.</p>
+    </div>
+    <div class="place" data-name="Machu Picchu">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQXNASVPjC87-VjB_E83M3D3Ot7IaiJw8oTg&s" alt="Machu Picchu">
+      <h2>Machu Picchu</h2>
+      <p>Ancient Incan city in the Andes Mountains, Peru.</p>
+    </div>
+    <div class="place" data-name="Petra">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7P88yXbeoS9IW6rp2-CUGl6AHGt6bmSzt2g&s" alt="Petra">
+      <h2>Petra</h2>
+      <p>Rose-red city carved into rock, Jordan's treasure.</p>
+    </div>
+    <div class="place" data-name="Colosseum">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/1200px-Colosseo_2020.jpg" alt="Colosseum">
+      <h2>Colosseum</h2>
+      <p>Icon of ancient Rome and gladiatorial history.</p>
+    </div>
+    <div class="place" data-name="Chichen Itza">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjFNqDLeJtTJOYRpTzKMQVJOuIcfKSl5f1ow&s" alt="Chichen Itza">
+      <h2>Chichen Itza</h2>
+      <p>Famous Mayan pyramid in Mexico's Yucatán Peninsula.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 World Wonders Tourism. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function filterPlaces() {
+      const search = document.getElementById("search").value.toLowerCase();
+      const places = document.querySelectorAll(".place");
+      places.forEach(place => {
+        const name = place.getAttribute("data-name").toLowerCase();
+        place.style.display = name.includes(search) ? "block" : "block"; // Keep all visible
+      });
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    function addNewPlace() {
+      const name = document.getElementById("newName").value;
+      const desc = document.getElementById("newDesc").value;
+      const imageInput = document.getElementById("newImage");
+
+      if (!name || !desc || !imageInput.files[0]) {
+        alert("Please fill all fields and choose an image.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const newCard = document.createElement("div");
+        newCard.className = "place";
+        newCard.setAttribute("data-name", name);
+
+        newCard.innerHTML = `
+          <img src="${e.target.result}" alt="${name}">
+          <h2>${name}</h2>
+          <p>${desc}</p>
+        `;
+        document.getElementById("places").appendChild(newCard);
+      };
+      reader.readAsDataURL(imageInput.files[0]);
+    }
+  </script>
+</body>
+</html>
